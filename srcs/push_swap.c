@@ -1,29 +1,9 @@
 #include "push_swap.h"
 
-typedef struct s_data
-{
-    int value;
-    int position;
-} t_data;
-
-typedef struct s_stack
-{
-    t_data *arr;
-    int top;
-} t_stack;
-
 void init_stack(t_stack *stack, int len)
 {
     stack->top = -1;
     stack->arr = malloc(sizeof(t_data) * len);
-}
-
-void ft_push(t_stack *stack, t_data *data)
-{
-
-    stack->top++;
-    stack->arr[stack->top].position = data->position;
-    stack->arr[stack->top].value = data->value;
 }
 
 int is_empty(t_stack *stack)
@@ -74,6 +54,14 @@ t_data *ft_pop(t_stack *stack)
 
     stack->top--;
     return (&stack->arr[stack->top + 1]);
+}
+
+void ft_push(t_stack *stack, t_data *data)
+{
+
+    stack->top++;
+    stack->arr[stack->top].position = data->position;
+    stack->arr[stack->top].value = data->value;
 }
 
 void ft_swap(t_data *data1, t_data *data2)
@@ -137,30 +125,38 @@ void set_positions(t_stack *stack)
     free(tmp.arr);
 }
 
-int apply_instuction(t_stack *a, t_stack *b, char *inst, int print)
+int apply_instuction(t_stack *a, t_stack *b, char *inst, int display)
 {
     if (!ft_strcmp("sa", inst))
-        sa_instruction(a, b);
+        sab_instruction(a);
     else if (!ft_strcmp("sb", inst))
-        sb_instruction(a, b);
+        sab_instruction(b);
     else if (!ft_strcmp("ss", inst))
-        ss_instruction(a, b);
+    {
+        sab_instruction(a);
+        sab_instruction(b);
+    }
     else if (!ft_strcmp("pa", inst))
-        pa_instruction(a, b);
+        ft_push(a, ft_pop(b));
     else if (!ft_strcmp("pb", inst))
-        pb_instruction(a, b);
+        ft_push(b, ft_pop(a));
     else if (!ft_strcmp("ra", inst))
-        ra_instruction(a, b);
-    else if (!ft_strcmp("rb", inst))
-        rb_instruction(a, b);
-    else if (!ft_strcmp("rr", inst))
-        rr_instruction(a, b);
-    else if (!ft_strcmp("rra", inst))
-        rra_instruction(a, b);
-    else if (!ft_strcmp("rrb", inst))
-        rrb_instruction(a, b);
-    else if (!ft_strcmp("rrr", inst))
-        rrr_instruction(a, b);
+        ra_instruction(a);
+    //     else if (!ft_strcmp("rb", inst))
+    //         rb_instruction(a, b);
+    //     else if (!ft_strcmp("rr", inst))
+    //         rr_instruction(a, b);
+    //     else if (!ft_strcmp("rra", inst))
+    //         rra_instruction(a, b);
+    //     else if (!ft_strcmp("rrb", inst))
+    //         rrb_instruction(a, b);
+    //     else if (!ft_strcmp("rrr", inst))
+    //         rrr_instruction(a, b);
+    else
+        return (ERROR);
+    if (display)
+        ft_putstr(inst);
+    return (SUCCESS);
 }
 
 int main(int ac, char **av)
@@ -187,17 +183,26 @@ int main(int ac, char **av)
         ft_push(&a, &data);
     }
     set_positions(&a);
-    while (i <= a.top)
+    i = a.top;
+    while (i >= 0)
     {
-        printf("%d --- %d\n", a.arr[i].value, a.arr[i].position);
-        i++;
+        printf("%lld --- %lld\n", a.arr[i].value, a.arr[i].position);
+        i--;
     }
-    // i = 0;
+    apply_instuction(&a, &b, "ra", 0);
+    printf("*******\n");
+    printf("*******\n");
+    i = a.top;
+    while (i >= 0)
+    {
+        printf("%lld --- %lld\n", a.arr[i].value, a.arr[i].position);
+        i--;
+    }
     // printf("------------------------\n");
     // selection_sort(&a);
     // while (i <= a.top)
     // {
-    //     printf("%d\n", a.arr[i].value);
+    //     printf("%lld\n", a.arr[i].value);
     //     i++;
     // }
     free(a.arr);

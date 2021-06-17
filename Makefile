@@ -10,7 +10,7 @@ INC_DIR		=	./includes/
 
 SRCS		= 	push_swap.c
 # SRCS		+= 	stack_tools.c
-# SRCS		+= 	instructions.c
+SRCS		+= 	instructions.c
 # SRCS		+= 	parse.c
 # SRCS		+= 	sort_stack.c
 # SRCS		+= 	sort_stack_tools.c
