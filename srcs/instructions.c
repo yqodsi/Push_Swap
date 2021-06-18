@@ -1,5 +1,47 @@
 #include "push_swap.h"
 
+
+int apply_instuction(t_stack *a, t_stack *b, char *inst, int display)
+{
+    if (!ft_strcmp("sa", inst))
+        sab_instruction(a);
+    else if (!ft_strcmp("sb", inst))
+        sab_instruction(b);
+    else if (!ft_strcmp("ss", inst))
+    {
+        sab_instruction(a);
+        sab_instruction(b);
+    }
+    else if (!ft_strcmp("pa", inst))
+        ft_push(a, ft_pop(b));
+    else if (!ft_strcmp("pb", inst))
+        ft_push(b, ft_pop(a));
+    else if (!ft_strcmp("ra", inst))
+        rab_instruction(a);
+        else if (!ft_strcmp("rb", inst))
+            rab_instruction(b);
+        else if (!ft_strcmp("rr", inst))
+        {
+            rab_instruction(a);
+            rab_instruction(b);
+        }
+        else if (!ft_strcmp("rra", inst))
+            rrab_instruction(a);
+        else if (!ft_strcmp("rrb", inst))
+            rrab_instruction(b);
+        else if (!ft_strcmp("rrr", inst))
+        {
+            rrab_instruction(a);
+            rrab_instruction(b);
+
+        }
+    else
+        return (ERROR);
+    if (display)
+        ft_putendl(inst);
+    return (SUCCESS);
+}
+
 void sab_instruction(t_stack *stack)
 {
     if (stack->top <= 0)

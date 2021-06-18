@@ -1,175 +1,37 @@
 #include "push_swap.h"
 
-void init_stack(t_stack *stack, int len)
+void    print_stack(t_stack *a, t_stack *b)
 {
-    stack->top = -1;
-    stack->arr = malloc(sizeof(t_data) * len);
-}
+    int len = a->top;
+    if (a->top < b->top)
+        len = b->top;
+    printf("%-15s\t|%-15s|\n", "    stack a", "    stack b");
+    printf("=================================\n");
 
-int is_empty(t_stack *stack)
-{
-    if (stack->top == -1)
-        return (TRUE);
-    return (FALSE);
-}
-
-int get_value(char *str, int *nb)
-{
-    int res;
-    int b;
-
-    b = 1;
-    res = 0;
-
-    if (*str == '-')
-        b = -1;
-    if (*str == '-' || *str == '+')
-        ++str;
-    while (*str && *str >= '0' && *str <= '9')
+    for(;len >= 0; len--)
     {
-        res = res * 10 + (*str++ - '0');
+        if (len > a->top)
+            printf("       %-7s\t|", "");
+        else
+            printf("       %-7d\t|", a->arr[len].value);
+        if (len > b->top)
+            printf("       %-7s|\n", "");
+        else
+            printf("       %-7d|\n", b->arr[len].value);
     }
-    if (*str != '\0')
-        return (1);
-    *nb = ((int)res * b);
-    return (0);
-}
-
-int is_duplicate(t_stack *stack, int nb)
-{
-    int i;
-
-    i = 0;
-    while (i <= stack->top)
-    {
-        if (nb == stack->arr[i].value)
-            return (TRUE);
-        i++;
-    }
-    return (FALSE);
-}
-
-t_data *ft_pop(t_stack *stack)
-{
-
-    stack->top--;
-    return (&stack->arr[stack->top + 1]);
-}
-
-void ft_push(t_stack *stack, t_data *data)
-{
-
-    stack->top++;
-    stack->arr[stack->top].position = data->position;
-    stack->arr[stack->top].value = data->value;
-}
-
-void ft_swap(t_data *data1, t_data *data2)
-{
-    int value;
-    int position;
-
-    value = data1->value;
-    position = data1->position;
-
-    data1->value = data2->value;
-    data1->position = data2->position;
-
-    data2->value = value;
-    data2->position = position;
-}
-
-void selection_sort(t_stack *stack)
-{
-    int i, j, min;
-
-    i = 0;
-    while (i <= stack->top)
-    {
-        min = i;
-        j = i;
-        while (j <= stack->top)
-        {
-            if (stack->arr[j].value < stack->arr[min].value)
-                min = j;
-            j++;
-        }
-        ft_swap(&stack->arr[min], &stack->arr[i]);
-        i++;
-    }
-}
-
-void set_positions(t_stack *stack)
-{
-    t_stack tmp;
-    int i;
-    int j;
-
-    i = 0;
-    tmp.arr = malloc(sizeof(t_data) * (stack->top + 1));
-    ft_memmove(tmp.arr, stack->arr, sizeof(t_data) * (stack->top + 1));
-    tmp.top = stack->top;
-    selection_sort(&tmp);
-
-    while (i <= tmp.top)
-    {
-        j = 0;
-        while (j <= tmp.top)
-        {
-            if (stack->arr[i].value == tmp.arr[j].value)
-                stack->arr[i].position = j;
-            j++;
-        }
-        i++;
-    }
-    free(tmp.arr);
-}
-
-int apply_instuction(t_stack *a, t_stack *b, char *inst, int display)
-{
-    if (!ft_strcmp("sa", inst))
-        sab_instruction(a);
-    else if (!ft_strcmp("sb", inst))
-        sab_instruction(b);
-    else if (!ft_strcmp("ss", inst))
-    {
-        sab_instruction(a);
-        sab_instruction(b);
-    }
-    else if (!ft_strcmp("pa", inst))
-        ft_push(a, ft_pop(b));
-    else if (!ft_strcmp("pb", inst))
-        ft_push(b, ft_pop(a));
-    else if (!ft_strcmp("ra", inst))
-        rab_instruction(a);
-        else if (!ft_strcmp("rb", inst))
-            rab_instruction(b);
-        else if (!ft_strcmp("rr", inst))
-            rr_instruction(a, b);
-        else if (!ft_strcmp("rra", inst))
-            rra_instruction(a, b);
-        else if (!ft_strcmp("rrb", inst))
-            rrb_instruction(a, b);
-        else if (!ft_strcmp("rrr", inst))
-            rrr_instruction(a, b);
-    else
-        return (ERROR);
-    if (display)
-        ft_putstr(inst);
-    return (SUCCESS);
+    printf("=================================\n");
 }
 
 int main(int ac, char **av)
 {
 
-    int i;
     int nb;
 
     t_data data;
     t_stack a;
     t_stack b;
 
-    i = 0;
+
     init_stack(&a, ac);
     init_stack(&b, ac);
     while (ac-- > 1)
@@ -183,20 +45,14 @@ int main(int ac, char **av)
         ft_push(&a, &data);
     }
     set_positions(&a);
-    i = a.top;
-    while (i >= 0)
+    // print_stack(&a, &b);
+    if (a.top == 2)
     {
-        printf("%lld --- %lld\n", a.arr[i].value, a.arr[i].position);
-        i--;
+        sort_three(&a, &b);
     }
-    apply_instuction(&a, &b, "ra", 0);
-    printf("*******\n");
-    printf("*******\n");
-    i = a.top;
-    while (i >= 0)
+    if (a.top == 4)
     {
-        printf("%lld --- %lld\n", a.arr[i].value, a.arr[i].position);
-        i--;
+        sort_five(&a, &b);
     }
     // printf("------------------------\n");
     // selection_sort(&a);
