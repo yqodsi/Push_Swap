@@ -141,17 +141,17 @@ int apply_instuction(t_stack *a, t_stack *b, char *inst, int display)
     else if (!ft_strcmp("pb", inst))
         ft_push(b, ft_pop(a));
     else if (!ft_strcmp("ra", inst))
-        ra_instruction(a);
-    //     else if (!ft_strcmp("rb", inst))
-    //         rb_instruction(a, b);
-    //     else if (!ft_strcmp("rr", inst))
-    //         rr_instruction(a, b);
-    //     else if (!ft_strcmp("rra", inst))
-    //         rra_instruction(a, b);
-    //     else if (!ft_strcmp("rrb", inst))
-    //         rrb_instruction(a, b);
-    //     else if (!ft_strcmp("rrr", inst))
-    //         rrr_instruction(a, b);
+        rab_instruction(a);
+        else if (!ft_strcmp("rb", inst))
+            rab_instruction(b);
+        else if (!ft_strcmp("rr", inst))
+            rr_instruction(a, b);
+        else if (!ft_strcmp("rra", inst))
+            rra_instruction(a, b);
+        else if (!ft_strcmp("rrb", inst))
+            rrb_instruction(a, b);
+        else if (!ft_strcmp("rrr", inst))
+            rrr_instruction(a, b);
     else
         return (ERROR);
     if (display)

@@ -7,7 +7,7 @@ void sab_instruction(t_stack *stack)
     ft_swap(&stack->arr[stack->top], &stack->arr[stack->top - 1]);
 }
 
-void ra_instruction(t_stack *stack)
+void rab_instruction(t_stack *stack)
 {
     t_data tmp;
     // tmp = stack->arr[stack->top];
@@ -16,3 +16,14 @@ void ra_instruction(t_stack *stack)
     // stack->arr[0] = tmp;
     ft_memmove(&stack->arr[0],&tmp,  sizeof(t_data));
 }
+
+void rrab_instruction(t_stack *stack)
+{
+    t_data tmp;
+    // tmp = stack->arr[stack->top];
+    ft_memmove(&tmp, &stack->arr[0], sizeof(t_data));
+    ft_memmove(stack->arr, stack->arr + 1, sizeof(t_data) * stack->top);
+    // stack->arr[0] = tmp;
+    ft_memmove(&stack->arr[stack->top],&tmp,  sizeof(t_data));
+}
+
