@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   insertion_sort.c                                   :+:      :+:    :+:   */
+/*   free_tab.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yqodsi <yqodsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/14 08:30:16 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/14 08:34:17 by isel-jao         ###   ########.fr       */
+/*   Created: 2021/05/28 19:34:17 by yqodsi            #+#    #+#             */
+/*   Updated: 2021/06/24 15:02:07 by yqodsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-void	insert(int *arr, int i)
-{
-	int	t;
-
-	while (i > 0 && arr[i] < arr[i - 1])
-	{
-		t = arr[i];
-		arr[i] = arr[i - 1];
-		arr[i - 1] = t;
-		i--;
-	}
-}
-
-void	insertionSort(int arr[], int n)
+void	free_tab(char **s)
 {
 	int	i;
 
-	i = 1;
-	while (i < n)
+	if (s)
 	{
-		insert(arr, i);
-		i++;
+		i = 0;
+		while (s[i])
+		{
+			free(s[i]);
+			i++;
+		}
 	}
+	free(s);
 }

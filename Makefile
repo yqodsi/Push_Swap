@@ -9,22 +9,22 @@ OBJ_DIR		=	./objs/
 INC_DIR		=	./includes/
 
 SRCS		= 	push_swap.c
-SRCS		+= 	stack_op.c
+SRCS		+= 	stack_tools.c
 SRCS		+= 	instructions.c
 SRCS		+= 	parse.c
-SRCS		+= 	sorts.c
-# SRCS		+= 	sort_stack_tools.c
-# SRCS		+= 	positions.c
-# SRCS		+= 	free_tab.c
+SRCS		+= 	sort_stack.c
+SRCS		+= 	sort_stack_tools.c
+SRCS		+= 	positions.c
+SRCS		+= 	free_tab.c
 
 SRCS_B		= 	checker.c
-SRCS_B		+= 	stack_op.c
+SRCS_B		+= 	stack_tools.c
 SRCS_B		+= 	instructions.c
 SRCS_B		+= 	parse.c
-SRCS_B		+= 	sorts.c
-# SRCS_B		+= 	sort_stack_tools.c
-# SRCS_B		+= 	positions.c
-# SRCS_B		+= 	free_tab.c
+SRCS_B		+= 	sort_stack.c
+SRCS_B		+= 	sort_stack_tools.c
+SRCS_B		+= 	positions.c
+SRCS_B		+= 	free_tab.c
 
 
 
@@ -38,7 +38,7 @@ RM			=	/bin/rm -f
 RM_DIR		=	/bin/rm -rf
 
 $(OBJ_DIR)%.o:$(SRCS_DIR)%.c $(INC_DIR)*.h
-	@$(CC) $(CFLAGS)	$(INC) -c $< -o $@
+	$(CC) $(CFLAGS)	$(INC) -c $< -o $@
 
 all:
 	@mkdir -p $(OBJ_DIR)
@@ -65,7 +65,3 @@ fclean: clean
 	rm -rf ${NAME_B} ${NAME}
 	@make fclean -C libft/ --no-print-directory
 re: clean all
-
-test: all
-	
-	 @clear && echo "-----MAIN-----" && ./${NAME} 

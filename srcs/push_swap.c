@@ -1,67 +1,64 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yqodsi <yqodsi@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/21 13:16:41 by yqodsi            #+#    #+#             */
+/*   Updated: 2021/06/24 15:05:29 by yqodsi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void    print_stack(t_stack *a, t_stack *b)
+void	print_stack(t_stack *stack)
 {
-    int len = a->top;
-    if (a->top < b->top)
-        len = b->top;
-    printf("%-15s\t|%-15s|\n", "    stack a", "    stack b");
-    printf("=================================\n");
+	int	i;
 
-    for(;len >= 0; len--)
-    {
-        if (len > a->top)
-            printf("       %-7s\t|", "");
-        else
-            printf("       %-7d\t|", a->arr[len].value);
-        if (len > b->top)
-            printf("       %-7s|\n", "");
-        else
-            printf("       %-7d|\n", b->arr[len].value);
-    }
-    printf("=================================\n");
+	i = stack->top;
+	while (i >= 0)
+	{
+		ft_putnbr(stack->arr[i].value);
+		ft_putstr("\t");
+		ft_putnbr(stack->arr[i--].position);
+		ft_putstr("\n");
+	}
 }
 
-int main(int ac, char **av)
+int	is_sorted(t_stack *a, t_stack *b)
 {
+	int	i;
 
-    int nb;
+	i = 0;
+	if (b->top != -1)
+		return (FALSE);
+	while (i < a->top)
+	{
+		if (a->arr[i].value < a->arr[i + 1].value)
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
 
-    t_data data;
-    t_stack a;
-    t_stack b;
+int	main(int ac, char **av)
+{
+	t_all	all;
 
-
-    init_stack(&a, ac);
-    init_stack(&b, ac);
-    while (ac-- > 1)
-    {
-        if (get_value(av[ac], &nb) || is_duplicate(&a, nb))
-        {
-            ft_putendl("error");
-            return (1);
-        }
-        data.value = nb;
-        ft_push(&a, &data);
-    }
-    set_positions(&a);
-    // print_stack(&a, &b);
-    if (a.top == 2)
-    {
-        sort_three(&a, &b);
-    }
-    if (a.top == 4)
-    {
-        sort_five(&a, &b);
-    }
-    // printf("------------------------\n");
-    // selection_sort(&a);
-    // while (i <= a.top)
-    // {
-    //     printf("%lld\n", a.arr[i].value);
-    //     i++;
-    // }
-    free(a.arr);
-    free(b.arr);
-    return 0;
+	all.a.arr = NULL;
+	all.b.arr = NULL;
+	all.chunks.indexes = NULL;
+	if (ac == 1)
+		return (0);
+	if (parse(ac, av, &all) != OK)
+		return (1);
+	if (is_sorted(&(all.a), &(all.b)))
+		return (0);
+	set_positions(&(all.a));
+	sort_a(&(all.a), &(all.b), all.chunks);
+	ft_free(all.a.arr);
+	ft_free(all.b.arr);
+	ft_free(all.chunks.indexes);
+	return (0);
 }
